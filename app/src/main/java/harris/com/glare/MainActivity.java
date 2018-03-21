@@ -10,6 +10,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor mPressure;
     float previousLuminosity = 0.0f;
     int screenBrightness = 0;
+    float brightnessValue = 0.0f;
     TextView luxLabel;
     View activity;
 
@@ -92,6 +94,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             if(screenBrightness > 255)
                 screenBrightness = 255;
 
+            brightnessValue = screenBrightness/255f;
+
+            Log.d("Glare App","The screenbrightness value is: " + screenBrightness);
+            Log.d("Glare App","The brightness value is: " + brightnessValue);
+
             //int alphaConversion = (int)Math.ceil(15f*Math.log(75f*currLuminosity));
 
             if(activity !=null)
@@ -125,7 +132,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         switch(checkedID)
         {
             case R.id.redRadio:
-                activity.setBackgroundColor(Color.rgb(screenBrightness,0,0));
+                //activity.setBackgroundColor(Color.rgb(screenBrightness,0,0));
+                activity.setBackgroundColor(Color.HSVToColor(new float[] {0f,1f,brightnessValue}));
                 break;
             case R.id.greenRadio:
                 activity.setBackgroundColor(Color.rgb(0, screenBrightness,0));
